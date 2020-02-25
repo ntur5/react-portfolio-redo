@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
+import axios from 'axios';
 import { 
   BrowserRouter as Router,
   Switch,
@@ -15,7 +16,12 @@ import PortfolioDatail from './portfolio/portfolio-detail'
 import NoMatch from './pages/no-match'
 
 export default class App extends Component {
+
+  
+
   render() {
+   
+
     return (
       <div className='app'>
         <h1>NaTHaN StoRRs Portfolio</h1>
