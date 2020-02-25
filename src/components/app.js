@@ -12,6 +12,7 @@ import About from './pages/about'
 import Contact from './pages/contact'
 import Blog from './pages/blog'
 import PortfolioDatail from './portfolio/portfolio-detail'
+import NoMatch from './pages/no-match'
 
 export default class App extends Component {
   render() {
@@ -27,7 +28,8 @@ export default class App extends Component {
               <Route path="/about-me" component={About}></Route>
               <Route path="/contact" component={Contact}></Route>
               <Route path="/blog" component={Blog}></Route>
-              <Route path="/portfolio/:slug" component={PortfolioDatail}></Route>
+              <Route exact path="/portfolio/:slug" component={PortfolioDatail}></Route>
+              <Route path="/" component={NoMatch}></Route>
             </Switch>
           </div>
         </Router>
