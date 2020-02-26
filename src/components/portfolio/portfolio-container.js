@@ -9,7 +9,6 @@ export default class PortfolioContainer extends Component {
     super();
 
     this.state = {
-        pageTitle: "Welcome to my Portfolio",
         isLoading: false,
         data:  [
         ]
@@ -63,15 +62,11 @@ export default class PortfolioContainer extends Component {
     }
     
     return (
-      <div>
-        <h2>{this.state.pageTitle}</h2>
-        <button onClick={() => this.handleFilter('eCommerse')}>eCommerse</button>
-        <button onClick={() => this.handleFilter('Scheduling')}>Scheduling</button>
-        <button onClick={() => this.handleFilter('Enterprise')}>Enterprise</button>
-
-        <div className="portfolio-items-wrapper">
-          {this.portfolioItems()}
-        </div>
+      <div className="portfolio-items-wrapper">
+        <button className="btn" onClick={() => this.handleFilter('eCommerse')}>eCommerse</button>
+        <button className="btn" onClick={() => this.handleFilter('Scheduling')}>Scheduling</button>
+        <button className="btn" onClick={() => this.handleFilter('Enterprise')}>Enterprise</button>
+        {this.portfolioItems()}
       </div>
     );
   }
