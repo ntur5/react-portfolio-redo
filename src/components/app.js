@@ -11,6 +11,7 @@ import About from './pages/about'
 import Contact from './pages/contact'
 import Blog from './pages/blog'
 import PortfolioDatail from './portfolio/portfolio-detail'
+import Auth from './pages/auth'
 import NoMatch from './pages/no-match'
 
 export default class App extends Component {
@@ -27,6 +28,7 @@ export default class App extends Component {
             <NavigationContainer />
             <Switch>
               <Route exact path="/" component={Home}></Route>
+              <Route path="/auth" component={Auth}></Route>
               <Route path="/about-me" component={About}></Route>
               <Route path="/contact" component={Contact}></Route>
               <Route path="/blog" component={Blog}></Route>
