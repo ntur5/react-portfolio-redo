@@ -1,10 +1,24 @@
 import React, { Component} from 'react'
+
+import Login from '../auth/login'
+
 import loginImage from '../../../static/assets/images/auth/login.jpg'
 
 export default class Auth extends Component {
     constructor() {
         super()
 
+        this.handleSuccessfulAuth = this.handleSuccessfulAuth.bind(this)
+        this.handleUnsuccessfulAuth = this.handleUnsuccessfulAuth.bind(this)
+    }
+
+    handleSuccessfulAuth() {
+        this.props.handleSuccessfulLogin();
+        this.props.history.push("/")
+    }
+
+    handleUnsuccessfulAuth() {
+        this.props.handleUnsuccessfulLogin();
     }
 
     render() {
@@ -17,7 +31,10 @@ export default class Auth extends Component {
                     }}
                 />
                 <div className="right-column">
-                    <h1>Login comonent goes here...</h1>
+                    <Login 
+                        handleSuccessfulAuth={this.handleSuccessfulAuth}
+                        handleUnsuccessfulAuth={this.handleUnsuccessfulAuth}
+                    />
                 </div>
             </div>
         )
