@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios'
 
 export default class PortfolioForm extends Component {
     constructor(props) {
@@ -31,8 +32,6 @@ export default class PortfolioForm extends Component {
             formData.append("portfolio_item[category]", this.state.category)
             formData.append("portfolio_item[position]", this.state.position)
 
-            debugger;
-
             return formData;
     }
 
@@ -43,7 +42,18 @@ export default class PortfolioForm extends Component {
     }
 
     handleSubmit(event) {
-        this.buildForm()
+        axios
+        .post("https://nathanstorrrs.devcamp.space/portfolio/portfolio_items",
+            this.buildForm(),
+            { withCredentials: true}
+        )
+        .then(response => {
+            console.log("response", response)
+        })
+        .catch(error => {
+            console.log("portfolio for handlesubmit error", error)
+        })
+        
         event.preventDefault()
     }
 
@@ -55,35 +65,37 @@ export default class PortfolioForm extends Component {
                 <form onSubmit={this.handleSubmit}>
                     <div>
                         <input 
-                        type="text"
-                        name="name"
-                        placeholder="Portfolio Item Name"
-                        value={this.state.name}
-                        onChange={this.handleChange}
+                            type="text"
+                            name="name"
+                            placeholder="Portfolio Item Name"
+                            value={this.state.name}
+                            onChange={this.handleChange}
                         />
                         <input 
-                        type="text"
-                        name="url"
-                        placeholder="URL"
-                        value={this.state.url}
-                        onChange={this.handleChange}
+                            type="text"
+                            name="url"
+                            placeholder="URL"
+                            value={this.state.url}
+                            onChange={this.handleChange}
                         />
                     </div>
                     <div>
                         <input 
-                        type="text"
-                        name="position"
-                        placeholder="Position"
-                        value={this.state.position}
-                        onChange={this.handleChange}
+                            type="text"
+                            name="position"
+                            placeholder="Position"
+                            value={this.state.position}
+                            onChange={this.handleChange}
                         />
-                        <input 
-                        type="text"
-                        name="category"
-                        placeholder="Category"
-                        value={this.state.category}
-                        onChange={this.handleChange}
-                        />
+                        <select 
+                            name="category"
+                            value={this.state.category}
+                            onChange={this.handleChange}
+                            >
+                                <option value="Scheduling">Scheduling</option> 
+                                <option value="eCommerce">eCommerce</option> 
+                                <option value="Enterprise">Enterprise</option> 
+                        </select>
                     </div>
 
                     <div>
