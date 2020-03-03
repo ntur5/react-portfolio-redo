@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+
+library.add( faTrash, faSignOutAlt);
 
 import PortfolioSideBarList from '../portfolio/portfolio-sidebar-list';
 import PortfolioForm from '../portfolio/portfolio-form';
