@@ -24,18 +24,21 @@ export default class Blog extends Component {
         })
     }
 
-    componentDidMount() {
+    // React v17 and about calls this unsafe
+    componentWillMount() {
         this.getBlogItems() 
 
     }
 
     render() {
+        const blogRecords = this.state.blogItems.map(blogItem => {
+            return (
+                <h1 key={blogItem.id}>{blogItem.title}</h1>
+            )
+        })
         return (
             <div>
-                <h2>Blog</h2>
-                <div>
-                    <Link to="/about-me">Read more about myself</Link>
-                </div>
+                {blogRecords}
             </div>
         )
     }
