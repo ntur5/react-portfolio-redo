@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
-library.add( faTrash, faSignOutAlt);
 
 import PortfolioSideBarList from '../portfolio/portfolio-sidebar-list';
 import PortfolioForm from '../portfolio/portfolio-form';
@@ -14,13 +10,30 @@ export default class PortfolioManager extends Component {
         super(props)
 
         this.state = {
-            portfolioItems:  []
+            portfolioItems:  [],
+            portfolioToEdit: []
         }
 
-        this.handleSuccessfulFormSubmisstion = this.handleSuccessfulFormSubmisstion.bind(this)
+        this.handleNewFormSubmission = this.handleNewFormSubmission.bind(this);
+        this.handleEditFormSubmission = this.handleEditFormSubmission.bind(this);
         this.handleFormSubmissionError = this.handleFormSubmissionError.bind(this)
         this.handleDeleteClick = this.handleDeleteClick.bind(this)
+        this.handleEditClick = this.handleEditClick.bind(this)
+        this.clearPortfolioToEdit = this.clearPortfolioToEdit.bind(this);
+
     }
+
+    clearPortfolioToEdit() {
+        this.setState({
+          portfolioToEdit: {}
+        });
+      }
+    
+      handleEditClick(portfolioItem) {
+        this.setState({
+          portfolioToEdit: portfolioItem
+        });
+      }
 
     handleDeleteClick(portfolioItem) {
         axios.delete(`https://nathanstorrrs.devcamp.space/portfolio/portfolio_items/${portfolioItem.id}`, { withCredentials: true })
@@ -37,15 +50,18 @@ export default class PortfolioManager extends Component {
             }) 
     }
 
-    handleSuccessfulFormSubmisstion(portfolioItem) {
-        // console.log("handle Submission", portfolioItem)
+    handleEditFormSubmission() {
+        this.getPortfolioItems();
+    }
+    
+    handleNewFormSubmission(portfolioItem) {
         this.setState({
             portfolioItems: [portfolioItem].concat(this.state.portfolioItems)
-        })
+        });
     }
 
     handleFormSubmissionError(error) {
-        console.log("handleSuccessfulFormSubmissionError", error)
+        console.log("handleFormSubmissionError error", error);
     }
 
     getPortfolioItems() {
@@ -69,14 +85,19 @@ export default class PortfolioManager extends Component {
             <div className="portfolio-manager-wrapper">
                 <div className="left-column">
                     <PortfolioForm 
-                        handleSuccessfulFormSubmisstion={this.handleSuccessfulFormSubmisstion}
+                        handleNewFormSubmission={this.handleNewFormSubmission}
+                        handleEditFormSubmission={this.handleEditFormSubmission}
                         handleFormSubmissionError={this.handleFormSubmissionError}
+                        clearPortfolioToEdit={this.clearPortfolioToEdit}
+                        portfolioToEdit={this.state.portfolioToEdit}
                     />
                 </div>
                 <div className="right-column">
                     <PortfolioSideBarList 
                         handleDeleteClick={this.handleDeleteClick}
-                        data={this.state.portfolioItems}/>
+                        data={this.state.portfolioItems}
+                        handleEditClick={this.handleEditClick}
+                    />
                 </div>
             </div>
         )

@@ -1,30 +1,38 @@
-import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const PortfolioSideBarList = props => {
-    const portfolioList = props.data.map(portfolioItem => {
-        return (
-            <div key={portfolioItem.id} className="portfolio-item-thumb">
-                <div className="portfolio-thumb-img">
-                    <img src={portfolioItem.thumb_image_url} />
-                </div>
-                <div className="text-content">
-                    <div className="title">{portfolioItem.name}</div>
-                    <a className="delete-icon" onClick={() => props.handleDeleteClick(portfolioItem)}>
-                        Delete <FontAwesomeIcon icon="trash"/>
-                    </a>
-                </div>
-            </div>
-        )
-    })
-
+const PortfolioSidebarList = props => {
+  const portfolioList = props.data.map(portfolioItem => {
     return (
-
-        <div className="portfolio-sidebar-list-wrapper">
-            {portfolioList}
+      <div key={portfolioItem.id} className="portfolio-item-thumb">
+        <div className="portfolio-thumb-img">
+          <img src={portfolioItem.thumb_image_url} />
         </div>
-    )
-}
 
-export default PortfolioSideBarList;
+        <div className="text-content">
+          <div className="title">{portfolioItem.name}</div>
+
+          <div className="actions">
+            <a
+              className="action-icon"
+              onClick={() => props.handleEditClick(portfolioItem)}
+            >
+              <FontAwesomeIcon icon="edit" />
+            </a>
+
+            <a
+              className="action-icon"
+              onClick={() => props.handleDeleteClick(portfolioItem)}
+            >
+              <FontAwesomeIcon icon="trash" />
+            </a>
+          </div>
+        </div>
+      </div>
+    );
+  });
+
+  return <div className="portfolio-sidebar-list-wrapper">{portfolioList}</div>;
+};
+
+export default PortfolioSidebarList;
