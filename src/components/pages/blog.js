@@ -10,7 +10,14 @@ export default class Blog extends Component {
             blogItems: []
         }
 
-        this.getBlogItems = this.getBlogItems.bind(this)
+        this.getBlogItems = this.getBlogItems.bind(this);
+        this.activateInfiniteScroll();
+    }
+
+    activateInfiniteScroll() {
+        window.onscroll = () => {
+            console.log("onscroll")
+        }
     }
 
     getBlogItems() {
@@ -37,9 +44,10 @@ export default class Blog extends Component {
                 <BlogItem key={blogItem.id} blogItem={blogItem} />
             )
         })
+
         return (
-            <div>
-                {blogRecords}
+            <div className="blog-container">
+                <div className="content-container">{blogRecords}</div>  
             </div>
         )
     }
