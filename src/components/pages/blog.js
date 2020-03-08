@@ -1,42 +1,68 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import BlogItem from '../blog/blog-item'
+import BlogModal from '../modals/blog-modal'
 
-export default class Blog extends Component {
+export default class Blog extends React.Component {
     constructor() {
         super()
         this.state = {
             blogItems: [],
             totalCount: 0,
-            currentPage: 0
+            currentPage: 0,
+            isLoading: true,
+            blogModalIsOpen: false
         }
 
         this.getBlogItems = this.getBlogItems.bind(this);
-        this.activateInfiniteScroll();
+        this.onScroll = this.onScroll.bind(this)
+        window.addEventListener("scroll", this.onScroll, false)
+        this.handleNewBlogClick = this.handleNewBlogClick.bind(this)
+        this.handleModalClose = this.handleModalClose.bind(this)
+        this.handleSuccessfulNewBlogSubmission = this.handleSuccessfulNewBlogSubmission.bind(this)
     }
 
-    activateInfiniteScroll() {
-        window.onscroll = () => {
-            // console.log("window.innerHeight", window.innerHeight)
-            // console.log("document.documentElement.scrollTop", document.documentElement.scrollTop)
-            if(window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight) {
-                console.log("get more posts")
-            }
-            // console.log("document.documentElement.offsetHeight", document.documentElement.offsetHeight)
+    handleSuccessfulNewBlogSubmission(blog) {
+        this.setState({
+            blogModalIsOpen: false,
+            blogItems: [blog].concat(this.state.blogItems)
+        })
+    }
 
-        }
+    handleNewBlogClick() {
+        this.setState({
+            blogModalIsOpen: true
+        })
+    }
+    
+    handleModalClose() {
+        this.setState({
+            blogModalIsOpen: false
+        })
+    }
+
+    onScroll() {
+            if (this.state.isLoading || this.state.blogItems.length === this.state.totalCount) {
+                return;
+            }
+            if(window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight) {
+                this.getBlogItems()
+            }
     }
 
     getBlogItems() {
         this.setState({
             currentPage: this.state.currentPage + 1
         })
-        axios.get('https://nathanstorrrs.devcamp.space/portfolio/portfolio_blogs', { withCredentials: true })
+        axios.get(`https://nathanstorrrs.devcamp.space/portfolio/portfolio_blogs?page=${this.state.currentPage}`, { withCredentials: true })
         .then(response => {
+            // console.log("getBlogItems", response)
             this.setState({
-                blogItems: response.data.portfolio_blogs,
-                totalCount: response.data.meta.total_records
+                blogItems: this.state.blogItems.concat(response.data.portfolio_blogs),
+                totalCount: response.data.meta.total_records,
+                isLoading: 0
             })
         })
         .catch(error => {
@@ -47,7 +73,10 @@ export default class Blog extends Component {
     // React v17 and about calls this unsafe
     componentWillMount() {
         this.getBlogItems() 
+    }
 
+    comonentWillUnmount() {
+        window.removeEventListener("scroll", this.onScroll, false)
     }
 
     render() {
@@ -59,7 +88,27 @@ export default class Blog extends Component {
 
         return (
             <div className="blog-container">
-                <div className="content-container">{blogRecords}</div>  
+                <BlogModal 
+                    handleSuccessfulNewBlogSubmission={this.handleSuccessfulNewBlogSubmission}
+                    modalIsOpen={this.state.blogModalIsOpen} 
+                    handleModalClose={this.handleModalClose}
+                />
+
+                {this.props.loggedInStatus === "LOGGED_IN" ?
+                <div className="new-blog-link">
+                    <a onClick={this.handleNewBlogClick}>
+                    <FontAwesomeIcon icon="plus-square" />
+                    </a>
+                </div> : null }
+
+                <div className="content-container">{blogRecords}</div>
+
+                {this.state.isLoading ? (
+                <div className="content-loader">
+                    {/* <FontAwesomeIcon icon="spinner" spin /> */}
+                    <FontAwesomeIcon icon="yin-yang" spin />
+                </div>
+                ) : null}
             </div>
         )
     }

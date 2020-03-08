@@ -6,7 +6,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTrash,
   faSignOutAlt,
-  faEdit
+  faEdit,
+  faSpinner,
+  faYinYang,
+  faPlus,
+  faPlusSquare,
+  faPlusCircle
 } from "@fortawesome/free-solid-svg-icons";
 
 import NavigationContainer from "./navigation/navigation-container";
@@ -20,7 +25,7 @@ import Auth from "./pages/auth";
 import NoMatch from "./pages/no-match";
 import BlogDetail from "./pages/blog-detail";
 
-library.add(faTrash, faSignOutAlt, faEdit);
+library.add(faTrash, faSignOutAlt, faEdit, faSpinner, faYinYang, faPlus, faPlusSquare, faPlusCircle);
 
 export default class App extends Component {
   constructor(props) {
@@ -119,7 +124,13 @@ export default class App extends Component {
 
               <Route path="/about-me" component={About} />
               <Route path="/contact" component={Contact} />
-              <Route path="/blog" component={Blog} />
+              <Route 
+                path="/blog" 
+                render={props => (
+                  <Blog {...props} 
+                    loggedInStatus={this.state.loggedInStatus} />
+                )}
+              />
               <Route path="/b/:slug" component={BlogDetail} />
               {this.state.loggedInStatus === "LOGGED_IN" ? (
                 this.authorizedPages()
