@@ -106,7 +106,8 @@ export default class Blog extends React.Component {
                 {this.state.isLoading ? (
                 <div className="content-loader">
                     {/* <FontAwesomeIcon icon="spinner" spin /> */}
-                    <FontAwesomeIcon icon="yin-yang" spin />
+                    {/* <FontAwesomeIcon icon="yin-yang" spin /> */}
+                    <FontAwesomeIcon icon="blog" spin />
                 </div>
                 ) : null}
             </div>
