@@ -17,7 +17,8 @@ export default class BlogModal extends Component {
                 // bottom: '-150px',
                 marginRight: '-50%',
                 transform: 'translate(-50%, -50%)',
-                width: '80%',
+                width: '50%',
+                // width: '800px',
                 minWidth: '800px'
                 // backgroundColor: "#1fc8db", 
                 // backgroundImage: "linear-gradient(135deg, #2cb5e8, #9fb8ad)"
