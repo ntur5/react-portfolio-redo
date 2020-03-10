@@ -20,6 +20,7 @@ export default class BlogForm extends Component {
   }
 
   handleRichTextEditorChange(content) {
+    // the parameter is the same as the the statedd
     this.setState({ content })
   }
 
